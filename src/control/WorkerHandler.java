@@ -1,6 +1,8 @@
 package control;
 
 import model.BinarySearchTree;
+import model.Queue;
+import model.Task;
 import model.Worker;
 
 public class WorkerHandler {
@@ -25,7 +27,7 @@ public class WorkerHandler {
         if(allWorker.search(worker) == null) {
             allWorker.insert(worker);
         }
-        worker.addTask(id);
+        allWorker.search(worker).addTask(id);
     }
 
     /**
@@ -35,6 +37,7 @@ public class WorkerHandler {
      */
     public void releaseAllTasksAndShowWorker(){
         System.out.println(releaseAllTasksAndShowWorker(allWorker));
+        resetWorkerCount();
     }
 
     /**
@@ -45,28 +48,39 @@ public class WorkerHandler {
      * @return String bestehend aus Arbeiternamen und deren IDs.
      */
     private String releaseAllTasksAndShowWorker(BinarySearchTree<Worker> tree){
-        String output = "";
+        StringBuilder output = new StringBuilder();
         if(!tree.getLeftTree().isEmpty()) {
-            output +=  workerCount + "." + releaseAllTasksAndShowWorker(tree.getLeftTree());
+            output.append(releaseAllTasksAndShowWorker(tree.getLeftTree()));
         }
-        if(!tree.isEmpty()) {
-            output += workerCount + "." + tree.getContent().getName();
-            increaseWorkerCount();
+
+        output.append(workerCount).append(".").append( tree.getContent().getName() ).append(":");
+        increaseWorkerCount();
+
+        while(tree.getContent().getCurrentTask() != null) {
+            output.append(idCount).append(".").append( tree.getContent().completeTask().getID() );
+            increaseIdCount();
+            if(tree.getContent().getCurrentTask() != null) {
+                output.append("-");
+            }
         }
+        resetIdCount();
+
+        output.append("#");
+
         if(!tree.getRightTree().isEmpty()) {
-            output += workerCount + "." + releaseAllTasksAndShowWorker(tree.getRightTree());
+            output.append(releaseAllTasksAndShowWorker(tree.getRightTree()));
         }
         //TODO 04a: Stellen Sie handschriftlich die gewünschte Ausgabe gemäß des vorhanden Baums dar (siehe MainController ab Zeile 13). Hierbei genügen die ersten drei Arbeiter und ihre IDs, die von dieser Methode ausgegeben werden.
         //TODO 04b: Setzen Sie anschließend diese Methode gemäß obiger Beschreibung um.
-        return output;
+        return output.toString();
     }
 
-    private void setWorkerCount(int amount) {
-        workerCount = amount;
+    private void resetWorkerCount() {
+        workerCount = 1;
     }
 
-    private void setIdCount(int amount) {
-        idCount = amount;
+    private void resetIdCount() {
+        idCount = 1;
     }
 
     private void increaseWorkerCount() {

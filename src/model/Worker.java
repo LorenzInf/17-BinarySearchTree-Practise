@@ -24,6 +24,14 @@ public class Worker implements ComparableContent<Worker> {
         return t;
     }
 
+    /**
+     * It's incredbily stupid there's no way to know if there are still Tasks left without de-queueing one so I made a way
+     * @return The current Task
+     */
+    public Task getCurrentTask(){
+        return allTasks.front();
+    }
+
     @Override
     public boolean isGreater(Worker pContent) {
         return name.compareTo(pContent.getName()) > 0;
