@@ -75,6 +75,35 @@ public class WorkerHandler {
         return output.toString();
     }
 
+    public void releaseAllTasksAndShowWorkerButGood(){
+        System.out.println(releaseAllTasksAndShowWorkerButGood(allWorker));
+    }
+
+    /**
+     * Same thing as above, but it's actually good
+     */
+    private String releaseAllTasksAndShowWorkerButGood(BinarySearchTree<Worker> tree){
+        StringBuilder output = new StringBuilder();
+        if(!tree.getLeftTree().isEmpty()) {
+            output.append(releaseAllTasksAndShowWorkerButGood(tree.getLeftTree()));
+        }
+
+        output.append("Worker Name: ").append( tree.getContent().getName() ).append("\nTasks:\n");
+
+        while(tree.getContent().getCurrentTask() != null) {
+            output.append(idCount).append(". ID: ").append( tree.getContent().completeTask().getID() ).append("\n");
+            increaseIdCount();
+        }
+        resetIdCount();
+
+        output.append("\n");
+
+        if(!tree.getRightTree().isEmpty()) {
+            output.append(releaseAllTasksAndShowWorkerButGood(tree.getRightTree()));
+        }
+        return output.toString();
+    }
+
     private void resetWorkerCount() {
         workerCount = 1;
     }

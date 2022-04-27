@@ -38,6 +38,7 @@ public class MainController {
     }
 
     public void releaseAllTasks(){
-        workerHandler.releaseAllTasksAndShowWorker();
+        //workerHandler.releaseAllTasksAndShowWorker();
+        workerHandler.releaseAllTasksAndShowWorkerButGood();
     }
 }
