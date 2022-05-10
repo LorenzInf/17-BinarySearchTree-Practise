@@ -1,5 +1,7 @@
 package control;
 
+import java.util.Random;
+
 public class MainController {
 
     private WorkerHandler workerHandler;
@@ -33,6 +35,16 @@ public class MainController {
         workerHandler.addTaskAndWorker("Ulf",21);
         workerHandler.addTaskAndWorker("Claus",22);
         workerHandler.addTaskAndWorker("Claus",23);
+        int taskNr = 24;
+        Random random = new Random();
+        for(int i = 0; i <= 2500; i++) {
+            StringBuilder name = new StringBuilder();
+            for(int j = 0; j < 5; j++) {
+                name.append((char) (random.nextInt('z' - 'a') + 'a'));
+            }
+            workerHandler.addTaskAndWorker(name.toString(),taskNr);
+            taskNr++;
+        }
 
         //TODO 02: Stellen Sie den resultierenden binären Suchbaum handschriftlich angemessen dar, falls dieser die Arbeiter lexikographisch einfügt. In ihrem Baum müssen die IDs der Aufträge ebenfalls dargestellt werden. Überlegen Sie sich hierzu eine Darstellungsweise.
     }

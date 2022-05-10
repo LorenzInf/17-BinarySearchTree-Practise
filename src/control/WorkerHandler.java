@@ -33,11 +33,11 @@ public class WorkerHandler {
     /**
      * Diese Methode entfernt alle Arbeitsaufträge aus dem Baum.
      * Dabei werden alle Arbeitsaufträge sortiert nach ihrem Arbeiter als großer, vollständiger String in der Systemkonsole ausgegeben.
-     * Nach Aufruf dieser Methode befinden sich alle Arbeiter immernoch im Baum, jedoch hat keiner mehr einen Arbeitsauftrag.
+     * Nach Aufruf dieser Methode befinden sich alle Arbeiter immer noch im Baum, jedoch hat keiner mehr einen Arbeitsauftrag.
      */
     public void releaseAllTasksAndShowWorker(){
         System.out.println(releaseAllTasksAndShowWorker(allWorker));
-        resetWorkerCount();
+        workerCount = 1;
     }
 
     /**
@@ -54,16 +54,16 @@ public class WorkerHandler {
         }
 
         output.append(workerCount).append(".").append( tree.getContent().getName() ).append(":");
-        increaseWorkerCount();
+        workerCount++;
 
         while(tree.getContent().getCurrentTask() != null) {
             output.append(idCount).append(".").append( tree.getContent().completeTask().getID() );
-            increaseIdCount();
+            idCount++;
             if(tree.getContent().getCurrentTask() != null) {
                 output.append("-");
             }
         }
-        resetIdCount();
+        idCount = 1;
 
         output.append("#");
 
@@ -92,9 +92,9 @@ public class WorkerHandler {
 
         while(tree.getContent().getCurrentTask() != null) {
             output.append(idCount).append(". ID: ").append( tree.getContent().completeTask().getID() ).append("\n");
-            increaseIdCount();
+            idCount++;
         }
-        resetIdCount();
+        idCount = 1;
 
         output.append("\n");
 
@@ -103,20 +103,17 @@ public class WorkerHandler {
         }
         return output.toString();
     }
+    /*private String releaseAllTasksAndShowWorkerButGood(BinarySearchTree<Worker> tree){
+        StringBuilder output = new StringBuilder();
+        if(!tree.getLeftTree().isEmpty()) {
+            output.append(releaseAllTasksAndShowWorkerButGood(tree.getLeftTree()));
+        }
 
-    private void resetWorkerCount() {
-        workerCount = 1;
-    }
+        output.append(tree.getContent().getName()).append(" ");
 
-    private void resetIdCount() {
-        idCount = 1;
-    }
-
-    private void increaseWorkerCount() {
-        workerCount ++;
-    }
-
-    private void increaseIdCount() {
-        idCount++;
-    }
+        if(!tree.getRightTree().isEmpty()) {
+            output.append(releaseAllTasksAndShowWorkerButGood(tree.getRightTree()));
+        }
+        return output.toString();
+    }*/
 }
